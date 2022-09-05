@@ -1,11 +1,6 @@
-@isTest
+@isTest(SeeAllData=True)
 public class TradeTriggerHandler_Test {
 
-    @TestSetup
-    static void testSetup(){
-        CollaborationGroup tradeReviewers = new CollaborationGroup(Name= 'Trade reviewers', CollaborationType = 'Public');
-        insert tradeReviewers;
-    }
 
     @isTest
     public static void testCreateChatterPost() {
