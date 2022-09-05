@@ -1,0 +1,93 @@
+<aura:component description="NewTrade" controller="NewTradeCtrl_LC"
+    implements="lightning:actionOverride, force:hasRecordId, force:lightningQuickAction,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome">
+
+    <aura:attribute name="columns" type="List" />
+    
+    <aura:attribute name="enableField" type="Boolean" default="true" />
+   
+    <aura:attribute name="isDisabled" type="Boolean" default="true" />
+    <aura:attribute name="redirectTo" type="String" default="" />
+    <aura:attribute name="sellCurrency" type="String" default="" />
+    <aura:attribute name="buyCurrency" type="String" default="" />
+    <aura:attribute name="rate" type="Decimal" default="0"/>
+    <aura:attribute name="sellAmnt" type="String" default=""/>
+    <aura:attribute name="buyAmnt" type="Decimal" default="0"/>
+    <aura:attribute name="showBtnSpinner" type="Boolean" />
+    <aura:attribute name="showScartaBtnSpinner" type="Boolean" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="currencies" type="List" />
+    
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.init}" />
+
+    
+        
+            <div class="slds-form ">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning:select aura:id="sellCurrency" class="slds-p-around_xx-small slds-size_full"
+                        label="Sell Currency" disabled="{! !v.enableField}"
+                        required="true"
+                        value="{!v.sellCurrency}" onchange="{!c.onChange}">
+                            <option text="Select One" value=""/>
+                            <aura:iteration items="{!v.currencies}" var="currency">
+                                <option text="{!currency}"
+                                    value="{!currency}" />
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3" style="position:relative">
+                        <div  style="padding-left:43%; padding-top:4%;">
+                            <div class="slds-grid slds-wrap ">
+                                <div class="slds-col slds-size_12-of-12">
+                                    <label class="slds-form-element__label" for="text-input-id-53">Rate</label>
+                                </div>
+                                <div class="slds-col slds-size_12-of-12">
+                                    <lightning:formattedNumber  value="{!v.rate}" onchange="{!c.onRateChange}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <aura:if isTrue="{! v.showSpinner }">
+                            <div class="slds-align_absolute-center">
+                                <lightning:spinner alternativeText="Loading" style="position:relative"  />
+                            </div>
+                        </aura:if>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning:select aura:id="currency" class="slds-p-around_xx-small slds-size_full"
+                        label="Buy Currency" disabled="{! !v.enableField}"
+                        messageWhenValueMissing="Please select a currency" required="true"
+                        value="{!v.buyCurrency}" onchange="{!c.onChange}">
+                            <option text="Select One" value=""/>
+                            <aura:iteration items="{!v.currencies}" var="currency">
+                                <option text="{!currency}"
+                                    value="{!currency}" />
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-3">
+                        
+                        <lightning:input aura:id="sellAmnt" type="text" label="Sell Amount" value="{!v.sellAmnt}" messageWhenValueMissing="Please enter a value." onchange="{!c.getBuyAmount}" required="true"/>
+                        <div class="slds-p-top_medium">
+                            <lightning:button variant="brand" aura:id="saveTrade" label="Save" title="Brand action" onclick="{! c.onButtonClick }" disabled="{!v.isDisabled}"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning:input type="number" disabled="true" value="{!v.buyAmnt}" label="Buy Amount" />
+                        <div class="slds-p-top_medium slds-float_right">
+                            <lightning:button label="Cancel" title="Neutral action" aura:id="cancel" onclick="{! c.onButtonClick }"/>
+                        </div>
+                    </div>
+                </div>
+                    
+                
+            </div>
+    
+
+</aura:component>
